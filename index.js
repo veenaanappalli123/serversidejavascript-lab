@@ -2,14 +2,17 @@
 const fs = require("fs");
 const path = require("path");
 
-console.log("running the app  ...");
-
 // Step 1: Read 'students.json' using fs.readFileSync
-// Pass 'utf-8' as the second argument so you get a text string, not raw binary
-// const studentsData = fs.readFileSync(???, 'utf-8');
+const studentsData = fs.readFileSync("students.json", "utf-8");
+
+console.log(typeof studentsData);
 
 // Step 2: Parse the JSON string into a JavaScript array
-// const students = JSON.parse(???);
+const students = JSON.parse(studentsData);
+
+students.forEach((student) => {
+  console.log(student);
+});
 
 // Step 3: Start building your Markdown string
 // Add a title, the current date, and a summary showing the total number of students
@@ -33,5 +36,16 @@ console.log("running the app  ...");
 // Step 6: Write your Markdown string to the output file
 // fs.writeFileSync(outputPath, markdownContent, 'utf-8');
 
+// Create a CSV file
+let csvContent = "id,name,email,major,gpa\n";
+students.forEach((student) => {
+  csvContent += `${student.id},${student.name},${student.email},${student.major},${student.gpa}\n`;
+});
+const csvPath = path.join(__dirname, "student_report.csv");
+fs.writeFileSync(csvPath, csvContent, "utf-8");
+
 // Step 7: Confirm it worked
 // console.log(`Report generated: ${outputPath}`);
+
+// STEP 8: 🚨 create a CSV file  ‼️❗
+// LAST STEP: 🚨 create a CSV file
