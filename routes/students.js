@@ -1,22 +1,23 @@
 import express from "express";
 import {
-  getStudents,
-  getStudent,
-  createStudent,
-  updateStudent,
-  deleteStudent,
+  createStudentHandler,
+  loginStudentHandler,
+  getAllStudentsHandler,
+  getStudentByIdHandler,
+  updateStudentHandler,
+  deleteStudentHandler,
 } from "../controllers/studentsController.js";
-
-import auth from "../middleware/auth.js";
-import upload from "../middleware/multer-config.js";
 
 const router = express.Router();
 
-//  PROTECTED ROUTES +  FILE UPLOAD
-router.get("/", auth, getStudents);
-router.get("/:id", auth, getStudent);
-router.post("/", auth, upload.single("image"), createStudent);
-router.put("/:id", auth, updateStudent);
-router.delete("/:id", auth, deleteStudent);
+// PUBLIC
+router.post("/", createStudentHandler);
+router.post("/login", loginStudentHandler);
+
+// (we will protect later)
+router.get("/", getAllStudentsHandler);
+router.get("/:id", getStudentByIdHandler);
+router.put("/:id", updateStudentHandler);
+router.delete("/:id", deleteStudentHandler);
 
 export default router;
