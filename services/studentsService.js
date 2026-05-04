@@ -30,14 +30,14 @@ export const loginStudent = async (email, password) => {
   return student;
 };
 
-// GET ALL
+//GET ALL
 export const getAllStudents = async () => {
-  return await Student.find().select("-password");
+  return await Student.find().select("email image");
 };
 
 // GET ONE
 export const getStudentById = async (id) => {
-  return await Student.findById(id).select("-password");
+  return await Student.findById(id).select("email image");
 };
 
 // UPDATE

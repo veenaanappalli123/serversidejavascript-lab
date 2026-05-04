@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 
 import studentRouter from "./routes/students.js";
 import courseRouter from "./routes/courseRoute.js";
+import authRoutes from "./routes/auth.js";
 
 dotenv.config();
 
@@ -24,8 +25,20 @@ app.use(express.static("public"));
 // routes
 app.use("/api/students", studentRouter);
 app.use("/api/courses", courseRouter);
+app.use("/api/auth", authRoutes);
 
 // server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
+
+
+
+
+//ERRORHANDLLE
+import { errorHandler } from "./middleware/errorHandler.js";
+
+
+app.use(errorHandler);
+
+
