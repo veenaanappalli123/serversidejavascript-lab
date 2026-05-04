@@ -8,16 +8,18 @@ import {
   deleteStudentHandler,
 } from "../controllers/studentsController.js";
 
+import { authCheck } from "../middleware/auth-middleware.js";
+
 const router = express.Router();
 
-// PUBLIC
+// PUBLIC ROUTES
 router.post("/", createStudentHandler);
 router.post("/login", loginStudentHandler);
 
-// (we will protect later)
-router.get("/", getAllStudentsHandler);
-router.get("/:id", getStudentByIdHandler);
-router.put("/:id", updateStudentHandler);
-router.delete("/:id", deleteStudentHandler);
+//  PROTECTED ROUTES
+router.get("/", authCheck, getAllStudentsHandler);
+router.get("/:id", authCheck, getStudentByIdHandler);
+router.put("/:id", authCheck, updateStudentHandler);
+router.delete("/:id", authCheck, deleteStudentHandler);
 
 export default router;
