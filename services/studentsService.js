@@ -1,35 +1,29 @@
-import fs from "fs"
+import Student from "../models/Student.js";
 
-const students = JSON.parse(
-  fs.readFileSync("./students.json", "utf-8")
-)
+// GET ALL
+export const getAllStudents = async () => {
+  return await Student.find();
+};
 
-export const getAllStudents = () => {
-  return students
-}
+// GET BY ID
+export const getStudentById = async (id) => {
+  return await Student.findById(id);
+};
 
-export const getStudentById = (id) => {
-  return students.find(s => s.id === id)
-}
+// CREATE
+export const createStudent = async (data) => {
+  const student = new Student(data);
+  return await student.save();
+};
 
-export const createStudent = (newStudent) => {
-  newStudent.id = Date.now()
-  students.push(newStudent)
-  return newStudent
-}
+// UPDATE
+export const updateStudent = async (id, data) => {
+  return await Student.findByIdAndUpdate(id, data, {
+    new: true,
+  });
+};
 
-export const updateStudent = (id, data) => {
-  const index = students.findIndex(s => s.id === id)
-  if (index === -1) return null
-
-  students[index] = { ...students[index], ...data }
-  return students[index]
-}
-
-export const deleteStudent = (id) => {
-  const index = students.findIndex(s => s.id === id)
-  if (index === -1) return null
-
-  students.splice(index, 1)
-  return true
-}
+// DELETE
+export const deleteStudent = async (id) => {
+  return await Student.findByIdAndDelete(id);
+};
