@@ -5,41 +5,27 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 
 import studentRouter from "./routes/students.js";
-import authRoutes from "./routes/auth.js";
-
-import logger from "./middleware/logger.js";
-import errorHandler from "./middleware/errorHandler.js";
+import courseRouter from "./routes/courseRoute.js";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-//  Connect MongoDB
+// DB
 connectDB();
 
-//  Global Middleware
-app.use(cors());
+// middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(logger);
+app.use(cors());
+app.use(express.static("public"));
 
-//  Static Files (MULTER IMAGES)
-app.use("/uploads", express.static("public/uploads"));
-
-//  Routes
+// routes
 app.use("/api/students", studentRouter);
-app.use("/api/auth", authRoutes);
+app.use("/api/courses", courseRouter);
 
-// Root
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
-
-//  ERROR HANDLER MUST BE LAST
-app.use(errorHandler);
-
-// Start server
+// server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
